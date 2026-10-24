@@ -22,10 +22,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { can, useMe } from "@/hooks/use-me";
 import { api } from "@/lib/api";
-import type {
-  EnquiryRow,
-  EnquiryStage,
-} from "@/lib/api/services/adm-office";
+import type { EnquiryRow, EnquiryStage } from "@/lib/api/services/adm-office";
 import { formatDate, formatDateTime, humanize } from "@/lib/format";
 import { refs } from "@/lib/refs";
 
@@ -72,7 +69,11 @@ function Enquiries() {
     queryKey: ["adm.enquiries", filter],
     initialPageParam: 0,
     queryFn: ({ pageParam }) =>
-      api.adm.enquiries.list({ ...filter, limit: PAGE_SIZE, offset: pageParam }),
+      api.adm.enquiries.list({
+        ...filter,
+        limit: PAGE_SIZE,
+        offset: pageParam,
+      }),
     getNextPageParam: (last, all) =>
       last.data.length === PAGE_SIZE ? all.length * PAGE_SIZE : undefined,
     enabled: Boolean(me),

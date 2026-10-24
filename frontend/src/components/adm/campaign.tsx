@@ -75,7 +75,12 @@ const FIELDS: FieldDef[] = [
     nullable: true,
     help: "Ad links tagged with these UTM values count for this campaign too.",
   },
-  { name: "utmMedium", label: "UTM medium", placeholder: "cpc", nullable: true },
+  {
+    name: "utmMedium",
+    label: "UTM medium",
+    placeholder: "cpc",
+    nullable: true,
+  },
   {
     name: "utmCampaign",
     label: "UTM campaign",

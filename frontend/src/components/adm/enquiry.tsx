@@ -56,11 +56,14 @@ export function EnquiryCreateDialog({
     staleTime: 60_000,
   });
   const currentYear = years.data?.find((y) => y.isCurrent);
-  const create = useAction((body: CreateBody) => api.adm.enquiries.create(body), {
-    invalidate: ENQUIRY_INVALIDATE,
-    toastError: false,
-    onSuccess: (r) => onCreated?.(r.data),
-  });
+  const create = useAction(
+    (body: CreateBody) => api.adm.enquiries.create(body),
+    {
+      invalidate: ENQUIRY_INVALIDATE,
+      toastError: false,
+      onSuccess: (r) => onCreated?.(r.data),
+    },
+  );
   return (
     <FormDialog
       open={open}

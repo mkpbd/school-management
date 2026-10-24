@@ -63,13 +63,7 @@ export type EnquiryRow = {
 };
 
 export type EnquiryActivityKind =
-  | "call"
-  | "sms"
-  | "email"
-  | "visit"
-  | "note"
-  | "stage_change"
-  | "task";
+  "call" | "sms" | "email" | "visit" | "note" | "stage_change" | "task";
 
 export type EnquiryActivity = {
   id: number;

@@ -208,7 +208,11 @@ export default function EnquiryPage() {
                   ["Guardian", e.guardianName],
                   [
                     "Phone",
-                    <a key="p" className="link font-mono" href={`tel:${e.phone}`}>
+                    <a
+                      key="p"
+                      className="link font-mono"
+                      href={`tel:${e.phone}`}
+                    >
                       {e.phone}
                     </a>,
                   ],
@@ -225,7 +229,11 @@ export default function EnquiryPage() {
                   ["Preferred contact", humanize(e.preferredContact)],
                   [
                     "Campus",
-                    <RefLabel key="cp" source={refs.campuses} id={e.campusId} />,
+                    <RefLabel
+                      key="cp"
+                      source={refs.campuses}
+                      id={e.campusId}
+                    />,
                   ],
                   [
                     "Academic year",
@@ -307,9 +315,7 @@ export default function EnquiryPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <StageStepper stage={e.stage} />
-              {e.stage === "lost" && (
-                <LostReason code={e.lostReasonCode} />
-              )}
+              {e.stage === "lost" && <LostReason code={e.lostReasonCode} />}
               {canEdit ? (
                 <Field label="Stage">
                   <select
@@ -346,9 +352,7 @@ export default function EnquiryPage() {
                 <FollowUpForm key={e.nextFollowUpAt ?? ""} enquiry={e} />
               ) : (
                 <DetailList
-                  items={[
-                    ["Next follow-up", formatDateTime(e.nextFollowUpAt)],
-                  ]}
+                  items={[["Next follow-up", formatDateTime(e.nextFollowUpAt)]]}
                 />
               )}
             </CardContent>
@@ -365,7 +369,9 @@ export default function EnquiryPage() {
                 onRowClick={
                   canApps
                     ? (a) =>
-                        router.push(`/dashboard/admissions/applications/${a.id}`)
+                        router.push(
+                          `/dashboard/admissions/applications/${a.id}`,
+                        )
                     : undefined
                 }
                 columns={[
@@ -395,11 +401,7 @@ export default function EnquiryPage() {
         </div>
       </div>
 
-      <EnquiryEditDialog
-        enquiry={e}
-        open={editing}
-        onOpenChange={setEditing}
-      />
+      <EnquiryEditDialog enquiry={e} open={editing} onOpenChange={setEditing} />
       <LostDialog enquiry={e} open={losing} onOpenChange={setLosing} />
       <ActivityDialog
         enquiry={e}
@@ -413,7 +415,7 @@ export default function EnquiryPage() {
 
 /** enquiry → … → admitted as steps (lost shown apart). */
 function StageStepper({ stage }: { stage: EnquiryStage }) {
-  const steps = STAGES.filter((s) => s !== "lost");
+  const steps: EnquiryStage[] = STAGES.filter((s) => s !== "lost");
   const at = steps.indexOf(stage);
   return (
     <ul className="steps steps-vertical w-full text-xs">
@@ -440,7 +442,13 @@ function LostReason({ code }: { code: string | null }) {
   );
 }
 
-function AssignForm({ enquiry, me }: { enquiry: EnquiryDetail; me: Me | undefined }) {
+function AssignForm({
+  enquiry,
+  me,
+}: {
+  enquiry: EnquiryDetail;
+  me: Me | undefined;
+}) {
   const [value, setValue] = useState(enquiry.assignedTo ?? "");
   const assign = useAction(
     (assignedTo: string | null) =>

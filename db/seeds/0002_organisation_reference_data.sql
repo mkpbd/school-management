@@ -449,6 +449,8 @@ SELECT :'org_id', l.list, l.code, l.en, l.bn, l.seq FROM (VALUES
   ('lead_source','qr_campaign','QR campaign','কিউআর ক্যাম্পেইন',5), ('lead_source','referral','Referral','রেফারেল',6),
   ('lost_reason','fees','Fees too high','ফি বেশি',1), ('lost_reason','distance','Distance','দূরত্ব',2),
   ('lost_reason','other_school','Chose another school','অন্য স্কুল',3), ('lost_reason','no_seat','No seat','আসন নেই',4),
+  ('lost_reason','not_reachable','Not reachable','যোগাযোগ করা যায়নি',5), ('lost_reason','not_selected','Not selected','নির্বাচিত হয়নি',6),
+  ('lost_reason','withdrew','Withdrew the application','আবেদন প্রত্যাহার',7), ('lost_reason','other','Other','অন্যান্য',8),
   ('student_doc_type','birth_cert','Birth certificate','জন্ম নিবন্ধন',1), ('student_doc_type','prev_report','Previous report card','পূর্ববর্তী রিপোর্ট কার্ড',2),
   ('student_doc_type','photo','Passport photo','ছবি',3), ('student_doc_type','vaccination','Vaccination card','টিকা কার্ড',4),
   ('student_doc_type','tc','Transfer certificate','ছাড়পত্র',5), ('student_doc_type','passport','Passport','পাসপোর্ট',6),

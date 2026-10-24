@@ -70,8 +70,7 @@ export default function ApplicationPage() {
   const spam = useAction(
     (isSpam: boolean) => api.adm.applications.spam(id, isSpam),
     {
-      success: (r) =>
-        r.data.isSpam ? "Moved to spam" : "Released from spam",
+      success: (r) => (r.data.isSpam ? "Moved to spam" : "Released from spam"),
       invalidate: APPLICATION_INVALIDATE,
     },
   );
@@ -115,9 +114,7 @@ export default function ApplicationPage() {
                     <Button
                       key={s}
                       size="sm"
-                      variant={
-                        s === "shortlisted" ? "default" : "outline"
-                      }
+                      variant={s === "shortlisted" ? "default" : "outline"}
                       onClick={() => setReviewing(s)}
                     >
                       {icon} {label}
@@ -226,14 +223,10 @@ export default function ApplicationPage() {
           <CardContent className="space-y-4 text-sm">
             <div>
               <div className="text-xs text-muted-foreground">Address</div>
-              <p className="whitespace-pre-line">
-                {a.formData.address || "—"}
-              </p>
+              <p className="whitespace-pre-line">{a.formData.address || "—"}</p>
             </div>
             <div>
-              <div className="text-xs text-muted-foreground">
-                Medical notes
-              </div>
+              <div className="text-xs text-muted-foreground">Medical notes</div>
               <p className="whitespace-pre-line">
                 {a.formData.medicalNotes || "—"}
               </p>
@@ -261,7 +254,10 @@ export default function ApplicationPage() {
                   key: "phone",
                   label: "Phone",
                   render: (g) => (
-                    <a className="link font-mono text-xs" href={`tel:${g.phone}`}>
+                    <a
+                      className="link font-mono text-xs"
+                      href={`tel:${g.phone}`}
+                    >
                       {g.phone}
                     </a>
                   ),

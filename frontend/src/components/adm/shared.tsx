@@ -15,11 +15,7 @@ import type {
 import { humanize } from "@/lib/format";
 import type { RefSource } from "@/lib/refs";
 
-export {
-  BackLink,
-  Field,
-  Stat,
-} from "@/components/acc/procurement";
+export { BackLink, Field, Stat } from "@/components/acc/procurement";
 export { fromLocalInput, toLocalInput } from "@/components/com/shared";
 
 // ---- enums ----
@@ -68,7 +64,12 @@ export const SOURCES: string[] = [
   ...new Set<string>([...CHANNELS, ...OFFICE_SOURCES]),
 ];
 
-export const PREFERRED_CONTACTS = ["phone", "sms", "email", "whatsapp"] as const;
+export const PREFERRED_CONTACTS = [
+  "phone",
+  "sms",
+  "email",
+  "whatsapp",
+] as const;
 
 export const ACTIVITY_KINDS: Exclude<EnquiryActivityKind, "stage_change">[] = [
   "call",
@@ -121,7 +122,7 @@ export const REVIEWABLE: ApplicationStatus[] = [
 const DEFAULT_LOST_REASONS: Array<{ code: string; label: string }> = [
   { code: "fees", label: "Fees too high" },
   { code: "distance", label: "Distance" },
-  { code: "chose_other_school", label: "Chose another school" },
+  { code: "other_school", label: "Chose another school" },
   { code: "no_seat", label: "No seat" },
   { code: "not_reachable", label: "Not reachable" },
   { code: "other", label: "Other" },
@@ -292,7 +293,11 @@ export function TrackingList({
         ["UTM", utmText ? <span className="text-xs">{utmText}</span> : "—"],
         [
           "Referrer",
-          referrer ? <span className="break-all text-xs">{referrer}</span> : "—",
+          referrer ? (
+            <span className="break-all text-xs">{referrer}</span>
+          ) : (
+            "—"
+          ),
         ],
         [
           "Landing URL",
@@ -401,11 +406,9 @@ export function CounsellorSelect({
       >
         <option value="">Unassigned</option>
         {me && <option value={me.id}>Me ({me.username ?? "you"})</option>}
-        {value &&
-          value !== me?.id &&
-          !rows.some((u) => u.id === value) && (
-            <option value={value}>{value.slice(0, 8)}…</option>
-          )}
+        {value && value !== me?.id && !rows.some((u) => u.id === value) && (
+          <option value={value}>{value.slice(0, 8)}…</option>
+        )}
         {rows.map((u) => (
           <option key={u.id} value={u.id}>
             {userName(u)}
