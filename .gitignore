@@ -1,0 +1,21 @@
+# dependencies and builds
+node_modules/
+dist/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# secrets and local settings (copy the .env.example files)
+.env
+.env.*
+!.env.example
+*.pem
+
+# local data
+var/
+*.log
+.DS_Store
+
+# empty clone of this repository made before the first push
+/school-management/

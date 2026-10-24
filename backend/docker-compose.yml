@@ -1,0 +1,69 @@
+# Local development stack (docs/backend/operations.md §2).
+#   docker compose up -d postgres redis minio clamav mailpit
+#   then build the schema:  DB=school_platform_dev PGHOST=localhost PGPORT=5432 bash ../db/tools/rebuild-and-test.sh
+#   (development uses trust auth inside this compose network only)
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_INITDB_ARGS: --locale-provider=icu --icu-locale=en-US --locale=C --encoding=UTF8
+    ports: ['5432:5432']
+    volumes: ['pgdata:/var/lib/postgresql']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+
+  redis:
+    image: redis:7-alpine
+    command: ['redis-server', '--appendonly', 'yes', '--maxmemory-policy', 'noeviction']
+    ports: ['6379:6379']
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address :9001
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio12345
+    ports: ['9000:9000', '9001:9001']
+    volumes: ['minio:/data']
+
+  clamav:
+    image: clamav/clamav:stable
+    ports: ['3310:3310']
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports: ['1025:1025', '8025:8025']
+
+  api:
+    build: .
+    profiles: ['app']
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://sms_app@postgres:5432/school_platform_dev
+      DATABASE_WORKER_URL: postgres://sms_worker@postgres:5432/school_platform_dev
+      REDIS_URL: redis://redis:6379/0
+      S3_ENDPOINT: http://minio:9000
+      CLAMAV_HOST: clamav
+      COOKIE_SECURE: 'false'
+    ports: ['8080:8080']
+    depends_on: [postgres, redis, minio]
+
+  worker:
+    build: .
+    profiles: ['app']
+    command: ['node', 'dist/main.worker.js']
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://sms_app@postgres:5432/school_platform_dev
+      DATABASE_WORKER_URL: postgres://sms_worker@postgres:5432/school_platform_dev
+      REDIS_URL: redis://redis:6379/0
+      S3_ENDPOINT: http://minio:9000
+      CLAMAV_HOST: clamav
+    depends_on: [postgres, redis, minio, clamav]
+
+volumes:
+  pgdata:
+  minio:
